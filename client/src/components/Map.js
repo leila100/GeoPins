@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import ReactMapGl, { NavigationControl } from "react-map-gl";
+import React, { useState, useEffect } from "react";
+import ReactMapGl, { NavigationControl, Marker } from "react-map-gl";
 import { withStyles } from "@material-ui/core/styles";
 // import Button from "@material-ui/core/Button";
 // import Typography from "@material-ui/core/Typography";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
+
+import PinIcon from "./PinIcon";
 
 const INITIAL_VIEWPORT = {
   latitude: 29.6197,
@@ -13,6 +15,21 @@ const INITIAL_VIEWPORT = {
 
 const Map = ({ classes }) => {
   const [viewPort, setViewPort] = useState(INITIAL_VIEWPORT);
+  const [userPosition, setUserPosition] = useState(null);
+
+  useEffect(() => {
+    getUserPosition();
+  }, []);
+
+  const getUserPosition = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        setViewPort({ ...viewPort, latitude, longitude });
+        setUserPosition({ latitude, longitude });
+      });
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -29,6 +46,13 @@ const Map = ({ classes }) => {
         <div className={classes.navigationControl}>
           <NavigationControl onViewportChange={newViewPort => setViewPort(newViewPort)} />
         </div>
+
+        {/* Pin for the user's current location */}
+        {userPosition && (
+          <Marker latitude={userPosition.latitude} longitude={userPosition.longitude} offsetLeft={-19} offsetTop={-37}>
+            <PinIcon size={40} color='red' />
+          </Marker>
+        )}
       </ReactMapGl>
     </div>
   );
