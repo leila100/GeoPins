@@ -6,6 +6,7 @@ import { withStyles } from "@material-ui/core/styles";
 // import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
 
 import PinIcon from "./PinIcon";
+import Blog from "./Blog";
 import Context from "../context";
 
 const INITIAL_VIEWPORT = {
@@ -73,6 +74,8 @@ const Map = ({ classes }) => {
           </Marker>
         )}
       </ReactMapGl>
+      {/* Blog area to add pin content */}
+      <Blog />
     </div>
   );
 };
