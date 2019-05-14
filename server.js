@@ -7,7 +7,6 @@ const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 const { findOrCreateUser } = require("./controllers/userController");
 
-console.log("MONGO_URI: ", process.env.MONGO_URI);
 mongoose
   .connect(process.env.MONGO_URI, {
     useNewUrlParser: true
