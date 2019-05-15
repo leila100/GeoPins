@@ -23,6 +23,7 @@ const corsOptions = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: cors(corsOptions),
   // introspection: true,
   // playground: true,
   context: async ({ req }) => {
