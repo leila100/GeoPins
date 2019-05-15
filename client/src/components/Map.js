@@ -5,6 +5,7 @@ import differenceInMinutes from "date-fns/difference_in_minutes";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import DeleteIcon from "@material-ui/icons/DeleteTwoTone";
+import { unstable_useMediaQuery as useMediaQuery } from "@material-ui/core/useMediaQuery";
 import { Subscription } from "react-apollo";
 
 import { useClient } from "../client";
@@ -23,6 +24,7 @@ const INITIAL_VIEWPORT = {
 
 const Map = ({ classes }) => {
   const client = useClient();
+  const mobileSize = useMediaQuery("(max-width: 650px)");
   const { state, dispatch } = useContext(Context);
   useEffect(() => {
     getPins();
@@ -74,18 +76,19 @@ const Map = ({ classes }) => {
 
   const handleDeletePin = async pin => {
     const variables = { pinId: pin._id };
-    const pinDeleted = await client.request(DELETE_PIN_MUTATION, variables);
+    await client.request(DELETE_PIN_MUTATION, variables);
     setPopup(null);
   };
 
   return (
-    <div className={classes.root}>
+    <div className={mobileSize ? classes.rootMobile : classes.root}>
       <ReactMapGl
         width='100vw'
         height='calc(100vh - 64px)'
         mapStyle='mapbox://styles/mapbox/streets-v10'
         // could use for example mapStyle='mapbox://styles/mapbox/satellite-streets-v10'
         mapboxApiAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
+        scrollZoom={!mobileSize}
         onViewportChange={newViewPort => setViewPort(newViewPort)}
         onClick={handleMapClick}
         {...viewPort}
