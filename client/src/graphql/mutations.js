@@ -29,10 +29,7 @@ export const DELETE_PIN_MUTATION = `
     deletePin(pinId: $pinId) {
       _id
     }
-
-    
   }
-}
 `;
 
 export const CREATE_COMMENT_MUTATION = `
