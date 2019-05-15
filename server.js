@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
+const cors = require("cors");
 
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
@@ -14,9 +15,15 @@ mongoose
   .then(() => console.log("DB Connected!"))
   .catch(err => console.error(err));
 
+const corsOptions = {
+  origin: "https://geopins-leila.netlify.com",
+  credentials: true
+};
+
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: cors(corsOptions),
   // introspection: true,
   // playground: true,
   context: async ({ req }) => {
