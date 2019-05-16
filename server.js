@@ -2,7 +2,6 @@ require("dotenv").config();
 
 const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
-const cors = require("cors");
 
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
@@ -23,6 +22,7 @@ const corsOptions = {
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  cors: true,
   // introspection: true,
   // playground: true,
   context: async ({ req }) => {
