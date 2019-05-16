@@ -1,4 +1,5 @@
-const { AuthenticationError, PubSub } = require("apollo-server");
+// const { AuthenticationError, PubSub } = require("apollo-server");
+const { AuthenticationError, PubSub } = require("apollo-server-express");
 
 const Pin = require("./models/Pin");
 
