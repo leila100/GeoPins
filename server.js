@@ -23,15 +23,15 @@ mongoose
 // };
 
 const app = express();
-const corsOptions = {
-  origin: "https://geopins-leila.netlify.com",
-  credentials: true
-};
-// app.use(cors());
+// const corsOptions = {
+//   origin: "http://localhost:3000",
+//   credentials: true
+// };
+app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: true,
+  cors: false,
   // introspection: true,
   // playground: true,
   context: async ({ req }) => {
@@ -50,10 +50,11 @@ const server = new ApolloServer({
   }
 });
 
-server.applyMiddleware({ app, cors: corsOptions });
-
-app.listen({ port: process.env.PORT || 4000 }, () => {
-  console.log("Apollo Server on http://localhost:4000/graphql");
+// server.applyMiddleware({ app, cors: corsOptions });
+server.applyMiddleware({ app, cors: false });
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`Server is listening on ${PORT}`);
 });
 // server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
 //   console.log(`Server is listening on ${url}`);
