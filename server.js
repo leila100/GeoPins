@@ -23,7 +23,11 @@ mongoose
 // };
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+  origin: "https://geopins-leila.netlify.com",
+  credentials: true
+};
+// app.use(cors());
 const server = new ApolloServer({
   typeDefs,
   resolvers,
@@ -46,7 +50,7 @@ const server = new ApolloServer({
   }
 });
 
-server.applyMiddleware({ app, path: "/graphql" });
+server.applyMiddleware({ app, cors: corsOptions });
 
 app.listen({ port: process.env.PORT || 4000 }, () => {
   console.log("Apollo Server on http://localhost:4000/graphql");
