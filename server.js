@@ -17,17 +17,26 @@ mongoose
   .then(() => console.log("DB Connected!"))
   .catch(err => console.error(err));
 
-// const corsOptions = {
-//   origin: "https://geopins-leila.netlify.com",
-//   credentials: true
-// };
+const corsOptions = {
+  origin: "https://geopins-leila.netlify.com",
+  credentials: true
+};
 
 const app = express();
 // const corsOptions = {
 //   origin: "http://localhost:3000",
 //   credentials: true
 // };
-app.use(cors());
+app.use(cors(corsOptions));
+app.use("/graphql", function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
+  if (req.method === "OPTIONS") {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
 const server = new ApolloServer({
   typeDefs,
   resolvers,
