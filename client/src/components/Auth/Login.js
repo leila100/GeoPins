@@ -15,6 +15,7 @@ const Login = ({ classes }) => {
     try {
       const idToken = googleUser.getAuthResponse().id_token;
       const client = new GraphQLClient(BASE_URL, {
+        mode: "cors",
         headers: { authorization: idToken }
       });
       const { me } = await client.request(ME_QUERY);
