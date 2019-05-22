@@ -1,9 +1,6 @@
 require("dotenv").config();
 
-const cors = require("cors");
-const express = require("express");
-// const { ApolloServer } = require("apollo-server");
-const { ApolloServer } = require("apollo-server-express");
+const { ApolloServer } = require("apollo-server");
 const mongoose = require("mongoose");
 
 const typeDefs = require("./typeDefs");
@@ -17,30 +14,10 @@ mongoose
   .then(() => console.log("DB Connected!"))
   .catch(err => console.error(err));
 
-const corsOptions = {
-  origin: "https://geopins-leila.netlify.com",
-  credentials: true
-};
-
-const app = express();
-// const corsOptions = {
-//   origin: "http://localhost:3000",
-//   credentials: true
-// };
-app.use(cors(corsOptions));
-app.use("/graphql", function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, Content-Length, X-Requested-With");
-  if (req.method === "OPTIONS") {
-    res.sendStatus(200);
-  } else {
-    next();
-  }
-});
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  cors: false,
+  cors: true,
   introspection: true,
   playground: true,
   context: async ({ req }) => {
@@ -59,12 +36,6 @@ const server = new ApolloServer({
   }
 });
 
-// server.applyMiddleware({ app, cors: corsOptions });
-server.applyMiddleware({ app, cors: false });
-const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-  console.log(`Server is listening on ${PORT}`);
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`Server is listening on ${url}`);
 });
-// server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
-//   console.log(`Server is listening on ${url}`);
-// });
