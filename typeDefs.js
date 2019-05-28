@@ -1,5 +1,4 @@
-// const { gql } = require("apollo-server");
-const { gql } = require("apollo-server-express");
+const { gql } = require("apollo-server");
 
 module.exports = gql`
   type User {
@@ -46,9 +45,9 @@ module.exports = gql`
     createComment(pinId: ID!, text: String!): Pin
   }
 
-  # type Subscription {
-  #   pinAdded: Pin
-  #   pinDeleted: Pin
-  #   pinUpdated: Pin
-  # }
+  type Subscription {
+    pinAdded: Pin
+    pinDeleted: Pin
+    pinUpdated: Pin
+  }
 `;

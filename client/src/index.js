@@ -1,10 +1,10 @@
 import React, { useContext, useReducer } from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import { ApolloProvider } from "react-apollo";
-// import { ApolloClient } from "apollo-client";
-// import { WebSocketLink } from "apollo-link-ws";
-// import { InMemoryCache } from "apollo-cache-inmemory";
+import { ApolloProvider } from "react-apollo";
+import { ApolloClient } from "apollo-client";
+import { WebSocketLink } from "apollo-link-ws";
+import { InMemoryCache } from "apollo-cache-inmemory";
 
 import App from "./pages/App";
 import Splash from "./pages/Splash";
@@ -16,12 +16,12 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import * as serviceWorker from "./serviceWorker";
 
 //In development
-// const wsLink = new WebSocketLink({
-//   uri: "ws://localhost:4000/graphql",
-//   options: {
-//     reconnect: true
-//   }
-// });
+const wsLink = new WebSocketLink({
+  uri: "ws://localhost:4000/graphql",
+  options: {
+    reconnect: true
+  }
+});
 //In Production
 // const wsLink = new WebSocketLink({
 //   uri: "wss://geopins-leila.herokuapp.com/graphql",
@@ -30,10 +30,10 @@ import * as serviceWorker from "./serviceWorker";
 //   }
 // });
 
-// const client = new ApolloClient({
-//   link: wsLink,
-//   cache: new InMemoryCache()
-// });
+const client = new ApolloClient({
+  link: wsLink,
+  cache: new InMemoryCache()
+});
 
 const Root = () => {
   const initialState = useContext(Context);
@@ -41,14 +41,14 @@ const Root = () => {
 
   return (
     <Router>
-      {/* <ApolloProvider client={client}> */}
-      <Context.Provider value={{ state, dispatch }}>
-        <Switch>
-          <ProtectedRoute exact path='/' component={App} />
-          <Route path='/login' component={Splash} />
-        </Switch>
-      </Context.Provider>
-      {/* </ApolloProvider> */}
+      <ApolloProvider client={client}>
+        <Context.Provider value={{ state, dispatch }}>
+          <Switch>
+            <ProtectedRoute exact path='/' component={App} />
+            <Route path='/login' component={Splash} />
+          </Switch>
+        </Context.Provider>
+      </ApolloProvider>
     </Router>
   );
 };

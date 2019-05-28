@@ -14,7 +14,6 @@ const Header = ({ classes }) => {
 
   const { state } = useContext(Context);
   const { currentUser } = state;
-  console.log("************", { currentUser });
   return (
     <div className={classes.root}>
       <AppBar position='static'>
