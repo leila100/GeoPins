@@ -16,19 +16,19 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import * as serviceWorker from "./serviceWorker";
 
 //In development
-const wsLink = new WebSocketLink({
-  uri: "ws://localhost:4000/graphql",
-  options: {
-    reconnect: true
-  }
-});
-//In Production
 // const wsLink = new WebSocketLink({
-//   uri: "wss://geopins-leila.herokuapp.com/graphql",
+//   uri: "ws://localhost:4000/graphql",
 //   options: {
 //     reconnect: true
 //   }
 // });
+//In Production
+const wsLink = new WebSocketLink({
+  uri: "wss://geopins-leila.herokuapp.com/graphql",
+  options: {
+    reconnect: true
+  }
+});
 
 const client = new ApolloClient({
   link: wsLink,
